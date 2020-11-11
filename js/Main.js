@@ -4,6 +4,7 @@ var testvalue = 0;
 var tempdatediff = "";
 var tempauthor = "";
 var total_users = [];
+var selected_channel = "global";
 var groupmembers = [];
 var joined_channels = [];
 var default_avather = './images/default_profile.png';
@@ -32,6 +33,7 @@ $.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function(t
         .then(chatClient => {
             client = chatClient;
             loadertest();
+            updateJoinedChannel();
             chatClient.getChannelByUniqueName("global")
                 .then(channel => {
                     channel.join()
@@ -109,6 +111,92 @@ function findGetParameter(parameterName) {
     return result;
 }
 
+function updateJoinedChannel() {
+    client.getSubscribedChannels().then(function(paginator) {
+        for (i = 0; i < paginator.items.length; i++) {
+            const channel = paginator.items[i];
+            var name = channel.uniqueName;
+            if (name !== "global") {
+                name = name.replace("_" + user_id, "");
+                name = name.replace(user_id + "_", "");
+                joined_channels.push({ name: name, channel: channel.uniqueName });
+            }
+        }
+    }).then(() => updatepersonalchatview());
+}
+
+function updatepersonalchatview() {
+    $(".searchresultbox").empty();
+    joined_channels.forEach((value, index) => {
+        insertpersonalchat(value.name, value.channel);
+    });
+}
+
+function insertpersonalchat(name, channel, time) {
+    if (time === undefined) {
+        time = 0;
+    }
+    control = '<div class="searchresult" onclick="showChat(\'' + name + '\',\'' + channel + '\')">' +
+        '<p>' + name + '</p>' +
+        '<br></div>';
+    setTimeout(
+        function() {
+            $(".searchresultbox").append(control);
+        }, time);
+}
+
+function showChat(name, channel) {
+    selected_channel = channel;
+    $('.MainContainer').hide();
+    $('.chatbox').show();
+    resetChat();
+    client.getChannelByUniqueName(channel)
+        .then(channel => {
+            channels = channel;
+            channel.on('messageAdded', function(messages) {
+                console.log("new message", messages);
+                var d = new Date(messages.dateCreated);
+                console.log(formatAMPM(d));
+                if (messages.author == user_id) {
+                    insertGroupChat("self", messages.body, 0, d, messages.author);
+                } else {
+                    insertGroupChat("other", messages.body, 0, d, messages.author);
+                }
+            });
+
+            channel.getMessages(100).then(function(messages) {
+                const totalMessages = messages.items.length;
+                for (i = 0; i < totalMessages; i++) {
+                    const message = messages.items[i];
+                    var d = new Date(message.dateCreated);
+                    if (message.author == user_id) {
+                        insertGroupChat("me", message.body, 0, d, message.author);
+                    } else {
+                        insertGroupChat("other", message.body, 0, d, message.author);
+                    }
+                }
+            });
+
+            channel.setAllMessagesConsumed();
+
+            channel.on('typingStarted', function(member) {
+                console.log('typingStarted');
+                console.log(member);
+                $(".subheder")[0].innerHTML = member.identity + " is typing";
+            });
+
+            channel.on('typingEnded', function(member) {
+                console.log('typingEnded');
+                console.log(member);
+                $(".subheder")[0].innerHTML = "";
+            });
+
+        })
+        .catch(e => {
+            console.error("Can't find global channel: " + e);
+        });
+}
+
 function updatechannelarray(json) {
     for (i = 0; i < json.length; i++) {
         groupmembers.push({
@@ -127,9 +215,9 @@ function updatechannelarray(json) {
                 var d = new Date(messages.dateCreated);
                 console.log(formatAMPM(d));
                 if (messages.author == user_id) {
-                    insertChat("self", messages.body, 0, d, messages.author);
+                    insertGroupChat("self", messages.body, 0, d, messages.author);
                 } else {
-                    insertChat("other", messages.body, 0, d, messages.author);
+                    insertGroupChat("other", messages.body, 0, d, messages.author);
                 }
             });
 
@@ -139,9 +227,9 @@ function updatechannelarray(json) {
                     const message = messages.items[i];
                     var d = new Date(message.dateCreated);
                     if (message.author == user_id) {
-                        insertChat("me", message.body, 0, d, message.author);
+                        insertGroupChat("me", message.body, 0, d, message.author);
                     } else {
-                        insertChat("other", message.body, 0, d, message.author);
+                        insertGroupChat("other", message.body, 0, d, message.author);
                     }
                 }
             });
@@ -199,7 +287,7 @@ function sendmessage() {
     if (sms == "") {
         alert("type a sms");
     } else {
-        client.getChannelByUniqueName("global")
+        client.getChannelByUniqueName(selected_channel)
             .then(channel => {
                 channel.sendMessage(sms).catch((e) => { console.log(e) });
                 $('.message')[0].value = "";
@@ -218,7 +306,7 @@ function typing() {
         });
 }
 
-function insertChat(who, text, time, date, author) {
+function insertGroupChat(who, text, time, date, author) {
     text = text.match(/(.{1,55})/g).join(" ");
     if (time === undefined) {
         time = 0;
@@ -243,18 +331,15 @@ function insertChat(who, text, time, date, author) {
         control = seperate(date, author) + '<li style="width:100%;padding-left: 15px;">' +
             '<div class="msj-rta macro">' +
             '<div class="text text-r">' +
-            // '<div class="authorme" style="color:' + color + '"><b>' + author + '</b></div>' +
             '<p>' + text + '</p>' +
             '<p>' + chattime + '</p>' +
             '<br></div>' +
-            // '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' + avatar + '" /></div>' +
             '</li>';
     }
     setTimeout(
         function() {
             $("ul").append(control).scrollTop($("ul").prop('scrollHeight'));
         }, time);
-
 }
 
 function seperate(date, author) {
