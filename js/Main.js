@@ -43,7 +43,6 @@ $.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function(t
                             updatechannelarray(channel.members.toJSON());
                         })
                         .catch(function(err) {
-                            console.log("Couldn't join channel " + channel.friendlyName + ' because ' + err);
                             updatechannelarray(channel.members.toJSON());
                         });
                 })
@@ -133,12 +132,23 @@ function updatepersonalchatview() {
 }
 
 function insertpersonalchat(name, channel, time) {
+    var control = "";
     if (time === undefined) {
         time = 0;
     }
-    control = '<div class="searchresult" onclick="showChat(\'' + name + '\',\'' + channel + '\')">' +
-        '<p>' + name + '</p>' +
-        '<br></div>';
+    // var img = '<div class="avatar"><img class="img-circle" style="width:100%;" src="./images/default_profile.png"></div>';
+    // control = '<div class="searchresult" onclick="showChat(\'' + name + '\',\'' + channel + '\')">' +
+    //     img +
+    //     '<p style="margin: inherit;">' + name + '</p>' +
+    //     '</div>';
+    control = '<div class="msj macro" style="width:100%">' +
+        '<div class="avatar"><img class="img-circle" style="width:100%;" src="./images/default_profile.png" /></div>' +
+        '<div class="text text-l">' +
+        '<div class="authoryou"><b>' + name + '</b></div>' +
+        '<p>Hello</p>' +
+        '<p>Yesterday</p>' +
+        '<br></div>' +
+        '</div><hr>'
     setTimeout(
         function() {
             $(".searchresultbox").append(control);
@@ -147,6 +157,7 @@ function insertpersonalchat(name, channel, time) {
 
 function showChat(name, channel) {
     selected_channel = channel;
+    $('.headername')[0].innerText = name;
     $('.MainContainer').hide();
     $('.chatbox').show();
     resetChat();
@@ -262,7 +273,6 @@ function formatAMPM(date) {
     mnth = date.getMonth() + 1;
     year = date.getFullYear();
     if (diffDays == 1) {
-        console.log(date, today);
         return "Yesterday";
     } else if (diffDays < 1) {
         if (date) {
@@ -373,6 +383,7 @@ function resetChat() {
 }
 
 function backtomain() {
+    gsap.from(".macro", { opacity: 50, x: '-100%', ease: "power2.in", duration: 1, stagger: .1 });
     $('.chatbox').hide();
     $('.infobutton').show();
     $('.searchresultbox').show();
