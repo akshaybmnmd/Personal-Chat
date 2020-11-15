@@ -8,7 +8,7 @@
       content="940321156544-r75r2pvflm43nc5gdugrn64de4ksilc0.apps.googleusercontent.com"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <!-- <script src="https://apis.google.com/js/api.js" async defer></script> -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
@@ -48,11 +48,11 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <!--===============================================================================================-->
     <script src="js/hashing.js"></script>
-    <script>
+    <!-- <script>
       gapi.load("auth2", () => {
         gapi.auth2.init();
       });
-    </script>
+    </script> -->
   </head>
 
   <body>
@@ -107,12 +107,7 @@
 
             <div class="container-login100-form-btn p-t-10">
               <button class="login100-form-btn">Login</button>
-              <div
-                id="gsignin"
-                on-tap="onSignIn"
-                data-onsuccess="onSignIn"
-                onclick="onSignIn"
-              >
+              <div class="g-signin2" data-onsuccess="onSignIn">
                 <img src="google_signin.png" />
                 login with google
               </div>
