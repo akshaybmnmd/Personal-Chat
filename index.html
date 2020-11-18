@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <script>
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-            var head = document.getElementsByTagName('HEAD')[0];
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-            link.href = './css/common.css';
-            head.appendChild(link);
-        } else {
-            var head = document.getElementsByTagName('HEAD')[0];
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-            link.href = './css/common.css';
-            head.appendChild(link);
-        }
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        var head = document.getElementsByTagName("HEAD")[0];
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "./css/common.css";
+        head.appendChild(link);
+      } else {
+        var head = document.getElementsByTagName("HEAD")[0];
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "./css/common.css";
+        head.appendChild(link);
+      }
     </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, maximum-scale=1.0" name="viewport" />
@@ -29,65 +28,94 @@
     <script src="https://media.twiliocdn.com/sdk/js/chat/v4.0/twilio-chat.min.js"></script>
     <script src="https://sdk.twilio.com/js/client/v1.12/twilio.min.js"></script>
     <script src="https://sdk.twilio.com/js/client/v1.12/twilio.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-</head>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
 
-<body style="overflow: hidden; width: 100vw;height: 100vh;">
-
+  <body style="overflow: hidden; width: 100vw; height: 100vh">
     <div class="black">
-        <div class="progress" style="height: 40px;">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-            </div>
-        </div>
+      <div class="progress" style="height: 40px">
+        <div
+          class="progress-bar progress-bar-info progress-bar-striped"
+          role="progressbar"
+          aria-valuenow="50"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          style="width: 0%"
+        ></div>
+      </div>
     </div>
 
     <div class="header">
-        <div class="backbutton" onclick="backtomain()">
-            <i class="fas fa-chevron-left"></i>
-        </div>
-        <div class="headername">
-            Global Chat
-        </div>
-        <div class="subheder"></div>
-        <div class="infobutton" onclick="infobutton()">
-            <i class="fas fa-ellipsis-v"></i>
-        </div>
+      <div class="backbutton" onclick="backtomain()">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <div class="headername">Global Chat</div>
+      <div class="subheder"></div>
+      <div class="infobutton" onclick="infobutton()">
+        <i class="fas fa-ellipsis-v"></i>
+      </div>
     </div>
 
     <div class="options">
-        <div class="optionsitem" onclick="personalchat()">Add a personal chat</div>
+      <div class="optionsitem" onclick="personalchat()">
+        Add a personal chat
+      </div>
     </div>
 
     <div class="MainContainer">
-        <div class="addapersonalchat">
-            <input class="nameinput" type="text" placeholder="Chat name">
-            <button class="searchbutton" onclick="search()">Search</button>
-        </div>
-        <div class="searchresultbox">
-            No Chats Found!
-        </div>
+      <div class="addapersonalchat">
+        <input class="nameinput" type="text" placeholder="Chat name" />
+        <button class="searchbutton" onclick="search()">Search</button>
+      </div>
+      <div class="searchresultbox">No Chats Found!</div>
     </div>
 
     <div class="chatbox">
-        <ul></ul>
-        <div class="inputoptions">
-            <textarea class="message" oninput="typing()" placeholder="Type a message"></textarea>
-            <button class="sendbutton" onclick="sendmessage()">
-                <span data-testid="send" data-icon="send" class="">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68">
-                        <path fill="currentColor"
-                            d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z">
-                        </path>
-                    </svg>
-                </span>
-            </button>
-        </div>
+      <ul></ul>
+      <div class="inputoptions">
+        <textarea
+          class="message"
+          oninput="typing()"
+          placeholder="Type a message"
+        ></textarea>
+        <button class="sendbutton" onclick="sendmessage()">
+          <span data-testid="send" data-icon="send" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68">
+              <path
+                fill="currentColor"
+                d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
     </div>
 
-    <script src="./js/Main.js"></script>
-</body>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyDfFaLbHikphLkya3QwRcSpUO5-XvDhFl0",
+        authDomain: "calm-collective-234905.firebaseapp.com",
+        databaseURL: "https://calm-collective-234905.firebaseio.com",
+        projectId: "calm-collective-234905",
+        storageBucket: "calm-collective-234905.appspot.com",
+        messagingSenderId: "940321156544",
+        appId: "1:940321156544:web:24ddde6b4fc00f7bb66c25",
+        measurementId: "G-R0TT1QVV9F",
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
+    <script src="./js/Main.js"></script>
+  </body>
 </html>
