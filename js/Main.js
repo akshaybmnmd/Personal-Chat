@@ -323,6 +323,11 @@ function updatechannelarray(json) {
     .catch((e) => {
       console.error("Can't find global channel: " + e);
     });
+  var attr = client.user.attributes;
+  attr.fcm = currentToken;
+  attr.googleToken = googleToken;
+  attr.userAvather = user_avather;
+  client.user.updateAttributes(attr);
 }
 
 function formatAMPM(date) {
