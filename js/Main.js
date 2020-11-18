@@ -269,7 +269,6 @@ function getmembers(json) {
   for (i = 0; i < json.length; i++) {
     client.getUser(json[i][1].identity).then((usr) => {
       k++;
-      console.log(k, json.length);
       if (k === json.length) {
         console.log("loaded");
         loadertest();

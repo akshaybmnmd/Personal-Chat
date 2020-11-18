@@ -252,14 +252,14 @@ iframe {
 }
 
 /*---------------------------------------------*/
-.login100-form-avather {
+.login100-form-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
 }
-.login100-form-avather img {
+.login100-form-avatar img {
   width: 100%;
 }
 
