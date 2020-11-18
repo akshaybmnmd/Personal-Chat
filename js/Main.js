@@ -48,10 +48,10 @@ $.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function (
           .then(() => {
             console.log("Joined global channel");
             console.log(channel.members.toJSON());
-            updatechannelarray(channel.members.toJSON());
+            getmembers(channel.members.toJSON());
           })
           .catch(function (err) {
-            updatechannelarray(channel.members.toJSON());
+            getmembers(channel.members.toJSON());
           });
       })
       .catch((e) => {
@@ -69,7 +69,7 @@ $.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function (
               .then(() => {
                 console.log("Joined global channel");
                 console.log(channel.members.toJSON());
-                updatechannelarray(channel.members.toJSON());
+                getmembers(channel.members.toJSON());
               })
               .catch(function (err) {
                 console.error("Couldn't join global channel because " + err);
@@ -99,8 +99,8 @@ $.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function (
 });
 
 function loadertest() {
-  $(".progress-bar")[0].style.width = (100 / 3) * testvalue + "%";
-  if (testvalue == 3) {
+  $(".progress-bar")[0].style.width = (100 / 4) * testvalue + "%";
+  if (testvalue == 4) {
     $(".progress-bar")[0].style.width = "100%";
     setTimeout(() => {
       $(".black").hide();
@@ -264,19 +264,33 @@ function showChat(name, channel) {
     });
 }
 
-function updatechannelarray(json) {
+function getmembers(json) {
+  var k = 0;
   for (i = 0; i < json.length; i++) {
-    var avather = json[i][1].attributes.userAvather
-      ? json[i][1].attributes.userAvather
-      : "./images/default_profile.png";
-    groupmembers.push({
-      identity: json[i][1].identity,
-      avather: avather,
-      lastonline: formatAMPM(json[i][1].lastConsumptionTimestamp),
-      lastindex: json[i][1].lastConsumedMessageIndex,
-      color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+    client.getUser(json[i][1].identity).then((usr) => {
+      k++;
+      console.log(k, json.length);
+      if (k === json.length) {
+        console.log("loaded");
+        loadertest();
+        updatechannelarray();
+      }
+      var avather = usr.attributes.userAvather
+        ? usr.attributes.userAvather
+        : "./images/default_profile.png";
+      groupmembers.push({
+        identity: usr.identity,
+        avather: avather,
+        fcm: usr.attributes.fcm,
+        lastonline: formatAMPM(usr.entity.dateUpdated),
+        isOnline: usr.online,
+        color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+      });
     });
   }
+}
+
+function updatechannelarray() {
   client
     .getChannelByUniqueName("global")
     .then((channel) => {
