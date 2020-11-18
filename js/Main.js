@@ -11,7 +11,7 @@ var joined_channels = [];
 var default_avather = "./images/default_profile.png";
 var user_id = findGetParameter("username");
 var googleToken = findGetParameter("googleToken");
-var user_avather = findGetParameter("googleToken");
+var user_avather = findGetParameter("avather");
 var test = "";
 if (!user_id) window.location.href = "./login.html";
 
@@ -266,7 +266,6 @@ function showChat(name, channel) {
 
 function updatechannelarray(json) {
   for (i = 0; i < json.length; i++) {
-    console.log(json[i]);
     var avather = json[i][1].attributes.userAvather
       ? json[i][1].attributes.userAvather
       : "./images/default_profile.png";
