@@ -108,7 +108,12 @@
                   var id_token = googleUser.getAuthResponse().id_token;
                   console.log("ID Token: " + id_token);
                   window.location.href =
-                    "./index.html?username=" + profile.getName();
+                    "./index.html?username=" +
+                    profile.getName() +
+                    "&googleToken=" +
+                    profile.getId() +
+                    "&avather=" +
+                    profile.getImageUrl();
                 }
               </script>
               <a href="#" onclick="signOut();">Sign out</a>

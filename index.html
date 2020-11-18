@@ -103,8 +103,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-messaging.js"></script>
 
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.0.2/init.js"></script> -->
-
     <script>
       var firebaseConfig = {
         apiKey: "AIzaSyDfFaLbHikphLkya3QwRcSpUO5-XvDhFl0",
@@ -119,23 +117,10 @@
       firebase.initializeApp(firebaseConfig);
       firebase.analytics();
       const messaging = firebase.messaging();
-      messaging
-        .getToken({
-          vapidKey:
-            "BJ6jAKQlj-F8Cznr0wtyZOg-5WVOY-tZtolr-NyWcmxQyP9ufkrgFMK1uj5uaSrZ2N61Io5BelCidh_uw_Baud0",
-        })
-        .then((currentToken) => {
-          if (currentToken) {
-            console.log("got current token. ", currentToken);
-          } else {
-            console.log(
-              "No registration token available. Request permission to generate one."
-            );
-          }
-        })
-        .catch((err) => {
-          console.error("An error occurred while retrieving token. ", err);
-        });
+
+      messaging.onMessage((payload) => {
+        console.log("Message received. ", payload);
+      });
     </script>
 
     <script src="./js/Main.js"></script>
