@@ -8,54 +8,58 @@
       content="940321156544-r75r2pvflm43nc5gdugrn64de4ksilc0.apps.googleusercontent.com"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- <script src="https://apis.google.com/js/api.js" async defer></script> -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-    <!--===============================================================================================-->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-    <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
       href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
     />
-    <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
       href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css"
     />
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
-    <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
       href="vendor/css-hamburgers/hamburgers.min.css"
     />
-    <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
       href="vendor/select2/select2.min.css"
     />
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <!--===============================================================================================-->
     <script src="js/hashing.js"></script>
-    <!-- <script>
-      gapi.load("auth2", () => {
-        gapi.auth2.init();
-      });
-    </script> -->
   </head>
 
   <body>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyDfFaLbHikphLkya3QwRcSpUO5-XvDhFl0",
+        authDomain: "calm-collective-234905.firebaseapp.com",
+        databaseURL: "https://calm-collective-234905.firebaseio.com",
+        projectId: "calm-collective-234905",
+        storageBucket: "calm-collective-234905.appspot.com",
+        messagingSenderId: "940321156544",
+        appId: "1:940321156544:web:24ddde6b4fc00f7bb66c25",
+        measurementId: "G-R0TT1QVV9F",
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
     <div class="limiter">
       <div
         class="container-login100"
@@ -113,18 +117,17 @@
               </div>
               <script>
                 function onSignIn(googleUser) {
-                  // Useful data for your client-side scripts:
                   var profile = googleUser.getBasicProfile();
-                  console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                  console.log("ID: " + profile.getId());
                   console.log("Full Name: " + profile.getName());
                   console.log("Given Name: " + profile.getGivenName());
                   console.log("Family Name: " + profile.getFamilyName());
                   console.log("Image URL: " + profile.getImageUrl());
                   console.log("Email: " + profile.getEmail());
-
-                  // The ID token you need to pass to your backend:
                   var id_token = googleUser.getAuthResponse().id_token;
                   console.log("ID Token: " + id_token);
+                  window.location.href =
+                    "./index.html?username=" + profile.getName();
                 }
               </script>
               <a href="#" onclick="signOut();">Sign out</a>
@@ -154,9 +157,9 @@
     </div>
 
     <!--===============================================================================================-->
-    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <scrpt src="vendor/jquery/jquery-3.2.1.min.js"></scrpt>
     <!--===============================================================================================-->
-    <script src="vendor/bootstrap/js/popper.js"></script>
+    <scrpt src="vendor/bootstrap/js/popper.js"></scrpt>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <!--===============================================================================================-->
     <script src="vendor/select2/select2.min.js"></script>
