@@ -111,15 +111,15 @@ function loadertest() {
 }
 
 function FCMtoken() {
-  messaging
-    .requestPermission()
-    .then(() => {
-      console.log("Got permissiond from the user");
-      get_token();
-    })
-    .catch((err) => {
-      console.log("Permission denided");
-    });
+  // messaging
+  //   .requestPermission()
+  //   .then(() => {
+  //     console.log("Got permissiond from the user");
+  //     get_token();
+  //   })
+  //   .catch((err) => {
+  //     console.log("Permission denided");
+  //   });
 }
 
 function get_token() {
@@ -460,19 +460,19 @@ function seperate(date, author) {
   if (tempdatediff != diffDays) {
     if (diffDays == 1) {
       seperator =
-        '<br><li><div class="datediveder">----Yesterday----</div></li><br>';
+        '<br><li><div class="datediveder"><p>----Yesterday----</p></div></li>';
     } else if (diffDays < 1) {
       seperator =
-        '<br><li><div class="datediveder">----Today----</div></li><br>';
+        '<br><li><div class="datediveder"><p>----Today----</p></div></li>';
     } else {
       seperator =
-        '<br><li><div class="datediveder">----' +
+        '<br><li><div class="datediveder"><p>----' +
         day +
         "/" +
         mnth +
         "/" +
         year +
-        "----</div></li><br>";
+        "----</p></div></li>";
     }
   }
   tempauthor = author;

@@ -13,14 +13,14 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: auto;
-  font-size: 37px;
+  font-size: 22px;
 }
 
 .text > p:last-of-type {
   width: 100%;
   text-align: right;
   color: silver;
-  font-size: 185%;
+  font-size: 15px;
   margin-bottom: -28px;
   margin-top: auto;
 }
@@ -41,7 +41,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15%;
+  width: 20%;
   float: left;
   padding-right: 10px;
 }
@@ -163,29 +163,31 @@ input:focus {
 .inputoptions {
   position: sticky;
   bottom: 0%;
-  padding-top: 22px;
+  /* padding-top: 22px; */
   min-height: 17vw;
   height: 8vh;
-  padding-bottom: 14px;
+  /* padding-bottom: 14px; */
   background-color: #e6e6e6;
   width: 100%;
 }
 
 .message {
-  /* height: 100%; */
+  height: 75%;
+  min-height: 13vw;
   width: 84vw;
-  font-size: 7vw;
+  font-size: 22px;
+  padding: 1vh;
   border: none;
-  border-radius: 34px;
+  border-radius: 4vh;
   margin: 2vw;
 }
 
 .sendbutton {
   position: absolute;
   background: none;
+  height: 100%;
   border: none;
   color: green;
-  margin-left: 2%;
 }
 
 .authorme {
@@ -194,7 +196,7 @@ input:focus {
 }
 
 .authoryou {
-  font-size: 40px;
+  font-size: 25px;
 }
 
 .black {
@@ -273,7 +275,7 @@ input:focus {
 
 .datediveder {
   text-align: center;
-  font-size: 25px;
+  font-size: 17px;
 }
 
 .MainContainer {
