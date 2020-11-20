@@ -255,8 +255,8 @@ input:focus {
 }
 
 .infobutton {
-  font-size: 69px;
-  top: 30px;
+  font-size: 4vh;
+  top: 2vh;
   position: absolute;
   color: #e5ddd5;
   left: 91%;
@@ -280,10 +280,10 @@ input:focus {
 }
 
 .MainContainer {
-  width: 100%;
-  bottom: 0px;
-  top: 162px;
-  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: none;
 }
 
 .options {

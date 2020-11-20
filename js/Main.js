@@ -5,6 +5,7 @@ var testvalue = 0;
 var tempdatediff = "";
 var tempauthor = "";
 var total_users = [];
+var isFirstTime = false;
 var selected_channel = "global";
 var groupmembers = [];
 var joined_channels = [];
@@ -14,6 +15,17 @@ var googleToken = findGetParameter("googleToken");
 var user_avather = findGetParameter("avather");
 var test = "";
 if (!user_id) window.location.href = "./login.html";
+if (typeof Storage !== "undefined") {
+  if (window.localStorage.groupmembersarray) {
+    isFirstTime = false;
+    groupmembers = JSON.parse(localStorage.getItem("groupmembersarray"));
+  } else {
+    isFirstTime = true;
+    groupmembers = [];
+  }
+} else {
+  console.log("bad");
+}
 
 // $.get("https://personal-chat-3777.twil.io/get_users", function(json, status) {
 //     for (i = 0; i < json.length; i++) {
@@ -100,13 +112,19 @@ $.get(
 
 function loadertest() {
   $(".progress-bar")[0].style.width = (100 / 3) * testvalue + "%";
-  if (testvalue == 3) {
-    $(".progress-bar")[0].style.width = "100%";
+  if (isFirstTime) {
     setTimeout(() => {
-      $(".black").hide();
-    }, 1100);
+      window.location.reload();
+    }, 10000);
   } else {
-    testvalue++;
+    if (testvalue == 3) {
+      $(".progress-bar")[0].style.width = "100%";
+      setTimeout(() => {
+        $(".black").hide();
+      }, 1100);
+    } else {
+      testvalue++;
+    }
   }
 }
 
@@ -266,25 +284,38 @@ function showChat(name, channel) {
 
 function getmembers(json) {
   var k = 0;
+  updatechannelarray();
   for (i = 0; i < json.length; i++) {
     client.getUser(json[i][1].identity).then((usr) => {
       k++;
-      if (k === json.length) {
-        console.log("loaded");
-        loadertest();
-        updatechannelarray();
-      }
       var avather = usr.attributes.userAvather
         ? usr.attributes.userAvather
         : "./images/default_profile.png";
-      groupmembers.push({
-        identity: usr.identity,
-        avather: avather,
-        fcm: usr.attributes.fcm,
-        lastonline: formatAMPM(usr.entity.dateUpdated),
-        isOnline: usr.online,
-        color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-      });
+      if (groupmembers.find((element) => element.identity == usr.identity)) {
+        console.log("element found");
+      } else {
+        groupmembers.push({
+          identity: usr.identity,
+          avather: avather,
+          fcm: usr.attributes.fcm,
+          lastonline: formatAMPM(usr.entity.dateUpdated),
+          isOnline: usr.online,
+          color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+        });
+      }
+      if (k === json.length) {
+        console.log("loaded");
+        loadertest();
+        if (isFirstTime) {
+          localStorage.setItem(
+            "groupmembersarray",
+            JSON.stringify(groupmembers)
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 10000);
+        }
+      }
     });
   }
 }
@@ -306,6 +337,7 @@ function updatechannelarray() {
       });
 
       channel.getMessages(100).then(function (messages) {
+        resetChat();
         const totalMessages = messages.items.length;
         for (i = 0; i < totalMessages; i++) {
           const message = messages.items[i];
@@ -496,6 +528,7 @@ function backtomain() {
   $(".chatbox").hide();
   $(".infobutton").show();
   $(".searchresultbox").show();
+  $(".MainContainer").show();
   $(".backbutton").hide();
   $(".headername")[0].innerText = "Presonal Chat";
 }
