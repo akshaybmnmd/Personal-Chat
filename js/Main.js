@@ -1,6 +1,7 @@
 var FCM = "";
 var client = "";
 var channels = "";
+var error = false;
 var testvalue = 0;
 var tempdatediff = "";
 var tempauthor = "";
@@ -24,6 +25,8 @@ if (typeof Storage !== "undefined") {
     groupmembers = [];
   }
 } else {
+  isFirstTime = false;
+  error = true;
   console.log("bad");
 }
 
@@ -116,6 +119,8 @@ function loadertest() {
     setTimeout(() => {
       window.location.reload();
     }, 10000);
+  } else if (error) {
+    $("#error")[0].innerHTML = "Local Storage not available";
   } else {
     if (testvalue == 3) {
       $(".progress-bar")[0].style.width = "100%";
