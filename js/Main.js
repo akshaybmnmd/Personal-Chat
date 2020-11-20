@@ -29,78 +29,78 @@ if (!user_id) window.location.href = "./login.html";
 loadertest();
 // });
 
-$.get("https://personal-chat-3777.twil.io/get_token?user=" + user_id, function (
-  token,
-  status
-) {
-  accessToken = token;
-  loadertest();
-  Twilio.Chat.Client.create(accessToken).then((chatClient) => {
-    client = chatClient;
-    FCMtoken();
+$.get(
+  "https://personal-chat-3777.twil.io/get_token?user=" + user_id,
+  function (token, status) {
+    accessToken = token;
     loadertest();
-    updateJoinedChannel();
-    chatClient
-      .getChannelByUniqueName("global")
-      .then((channel) => {
+    Twilio.Chat.Client.create(accessToken).then((chatClient) => {
+      client = chatClient;
+      FCMtoken();
+      loadertest();
+      updateJoinedChannel();
+      chatClient
+        .getChannelByUniqueName("global")
+        .then((channel) => {
+          channel
+            .join()
+            .then(() => {
+              console.log("Joined global channel");
+              console.log(channel.members.toJSON());
+              getmembers(channel.members.toJSON());
+            })
+            .catch(function (err) {
+              getmembers(channel.members.toJSON());
+            });
+        })
+        .catch((e) => {
+          console.log("Can't find global channel: " + e);
+          client
+            .createChannel({
+              uniqueName: "global",
+              friendlyName: "global Chat Channel",
+            })
+            .then(function (channel) {
+              console.log("Created global channel:");
+              console.log(channel);
+              channel
+                .join()
+                .then(() => {
+                  console.log("Joined global channel");
+                  console.log(channel.members.toJSON());
+                  getmembers(channel.members.toJSON());
+                })
+                .catch(function (err) {
+                  console.error("Couldn't join global channel because " + err);
+                });
+            });
+        });
+
+      chatClient.on("tokenAboutToExpire", function () {
+        fetchToken(function (updatedToken) {
+          chatClient.updateToken(updatedToken);
+        });
+      });
+
+      chatClient.on("channelInvited", function (channel) {
+        console.log("Invited to channel " + channel.uniqueName);
         channel
           .join()
           .then(() => {
-            console.log("Joined global channel");
-            console.log(channel.members.toJSON());
-            getmembers(channel.members.toJSON());
+            updatechannelarray();
           })
-          .catch(function (err) {
-            getmembers(channel.members.toJSON());
-          });
-      })
-      .catch((e) => {
-        console.log("Can't find global channel: " + e);
-        client
-          .createChannel({
-            uniqueName: "global",
-            friendlyName: "global Chat Channel",
-          })
-          .then(function (channel) {
-            console.log("Created global channel:");
-            console.log(channel);
-            channel
-              .join()
-              .then(() => {
-                console.log("Joined global channel");
-                console.log(channel.members.toJSON());
-                getmembers(channel.members.toJSON());
-              })
-              .catch(function (err) {
-                console.error("Couldn't join global channel because " + err);
-              });
-          });
+          .catch((err) => {});
       });
 
-    chatClient.on("tokenAboutToExpire", function () {
-      fetchToken(function (updatedToken) {
-        chatClient.updateToken(updatedToken);
-      });
+      chatClient.on("channelJoined", function (channel) {});
+      loadertest();
     });
-
-    chatClient.on("channelInvited", function (channel) {
-      console.log("Invited to channel " + channel.uniqueName);
-      channel
-        .join()
-        .then(() => {
-          updatechannelarray();
-        })
-        .catch((err) => {});
-    });
-
-    chatClient.on("channelJoined", function (channel) {});
-    loadertest();
-  });
-});
+  }
+);
 
 function loadertest() {
-  $(".progress-bar")[0].style.width = (100 / 4) * testvalue + "%";
-  if (testvalue == 4) {
+  $(".progress-bar")[0].style.width = (100 / 3) * testvalue + "%";
+  if (testvalue == 3) {
     $(".progress-bar")[0].style.width = "100%";
     setTimeout(() => {
       $(".black").hide();

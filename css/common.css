@@ -21,7 +21,7 @@
   text-align: right;
   color: silver;
   font-size: 15px;
-  margin-bottom: -28px;
+  margin-bottom: -24px;
   margin-top: auto;
 }
 
@@ -219,7 +219,7 @@ input:focus {
   /* position: fixed; */
   height: 10vh;
   min-height: 15vw;
-  background-color: cadetblue;
+  background-color: #389a39;
 }
 
 .chatbox {
@@ -237,7 +237,7 @@ input:focus {
 
 .backbutton {
   position: absolute;
-  font-size: 5vh;
+  font-size: 4vh;
   color: #e5ddd5;
   top: 2vh;
   left: 3%;
@@ -245,9 +245,10 @@ input:focus {
 
 .headername {
   left: 25vw;
-  font-size: 7vw;
+  font-size: 6vw;
   position: absolute;
   width: 50%;
+  color: #e5ddd5;
   top: 2vh;
   text-align: center;
   align-items: center;
@@ -267,7 +268,7 @@ input:focus {
   font-size: 4vw;
   position: absolute;
   width: 50%;
-  top: 12vw;
+  top: 6vh;
   color: green;
   text-align: center;
   align-items: center;
