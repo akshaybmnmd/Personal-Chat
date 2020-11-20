@@ -3,23 +3,30 @@ var client = "";
 var channels = "";
 var error = false;
 var testvalue = 0;
-var tempdatediff = "";
 var tempauthor = "";
 var total_users = [];
-var isFirstTime = false;
-var selected_channel = "global";
 var groupmembers = [];
+var tempdatediff = "";
+var isFirstTime = false;
 var joined_channels = [];
-var default_avather = "./images/default_profile.png";
+var selected_channel = "global";
+var errorValue = "Unknown Error!!";
 var user_id = findGetParameter("username");
-var googleToken = findGetParameter("googleToken");
+var user_password = findGetParameter("pass");
 var user_avather = findGetParameter("avather");
+var token = findGetParameter("googleToken")
+  ? findGetParameter("googleToken")
+  : "123";
+var default_avather = "./images/default_profile.png";
 var test = "";
+
+const uuid = user_id + token;
+
 if (!user_id) window.location.href = "./login.html";
 if (typeof Storage !== "undefined") {
-  if (window.localStorage.groupmembersarray) {
+  if (window.localStorage[uuid]) {
     isFirstTime = false;
-    groupmembers = JSON.parse(localStorage.getItem("groupmembersarray"));
+    groupmembers = JSON.parse(localStorage.getItem(uuid));
   } else {
     isFirstTime = true;
     groupmembers = [];
@@ -27,6 +34,7 @@ if (typeof Storage !== "undefined") {
 } else {
   isFirstTime = false;
   error = true;
+  errorValue = "Local Storage not available!";
   console.log("bad");
 }
 
@@ -120,17 +128,34 @@ function loadertest() {
       window.location.reload();
     }, 10000);
   } else if (error) {
-    $("#error")[0].innerHTML = "Local Storage not available";
+    $("#error")[0].innerHTML = errorValue;
   } else {
     if (testvalue == 3) {
       $(".progress-bar")[0].style.width = "100%";
       setTimeout(() => {
         $(".black").hide();
       }, 1100);
+      setTimeout(() => {
+        setLocal();
+      }, 20000);
     } else {
       testvalue++;
     }
   }
+}
+
+function logout() {
+  localStorage.removeItem(uuid);
+  localStorage.removeItem(uuid + "pass");
+  localStorage.removeItem("PC_user");
+  localStorage.removeItem("PC_token");
+  window.location.href = "./login.html";
+}
+
+function setLocal() {
+  localStorage.setItem(uuid + "pass", myHash(user_password));
+  localStorage.setItem("PC_user", myHash(user_id));
+  localStorage.setItem("PC_token", token);
 }
 
 function FCMtoken() {
@@ -156,7 +181,7 @@ function get_token() {
         FCM = currentToken;
         var attr = client.user.attributes;
         attr.fcm = currentToken;
-        attr.googleToken = googleToken;
+        attr.token = token;
         attr.userAvather = user_avather;
         client.user.updateAttributes(attr);
         console.log("got current token. ", currentToken);
@@ -297,7 +322,6 @@ function getmembers(json) {
         ? usr.attributes.userAvather
         : "./images/default_profile.png";
       if (groupmembers.find((element) => element.identity == usr.identity)) {
-        console.log("element found");
       } else {
         groupmembers.push({
           identity: usr.identity,
@@ -312,10 +336,7 @@ function getmembers(json) {
         console.log("loaded");
         loadertest();
         if (isFirstTime) {
-          localStorage.setItem(
-            "groupmembersarray",
-            JSON.stringify(groupmembers)
-          );
+          localStorage.setItem(uuid, JSON.stringify(groupmembers));
           setTimeout(() => {
             window.location.reload();
           }, 10000);
@@ -373,7 +394,7 @@ function updatechannelarray() {
       console.error("Can't find global channel: " + e);
     });
   var attr = client.user.attributes;
-  attr.googleToken = googleToken;
+  attr.token = token;
   attr.userAvather = user_avather;
   client.user.updateAttributes(attr);
 }

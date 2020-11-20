@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login V12</title>
+    <title defer>Login V12</title>
+    <script src="js/hashing.js"></script>
+    <script>
+      if (typeof Storage !== "undefined") {
+        if (window.localStorage.PC_user && window.localStorage.PC_token) {
+          var user = unhash(localStorage.getItem("PC_user"));
+          var token = localStorage.getItem("PC_token");
+          var pass = unhash(localStorage.getItem(user + token + "pass"));
+          window.location.href = `./index.html?username=${user}&pass=${pass}`;
+        }
+      }
+    </script>
     <meta charset="UTF-8" />
     <meta
       name="google-signin-client_id"
@@ -44,7 +55,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="js/hashing.js"></script>
   </head>
 
   <body>

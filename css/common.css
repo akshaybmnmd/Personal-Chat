@@ -295,6 +295,7 @@ input:focus {
   width: 43%;
   left: 55%;
   padding: 10px;
+  z-index: 1;
 }
 
 .optionsitem {
