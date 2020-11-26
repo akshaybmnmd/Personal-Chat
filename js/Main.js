@@ -234,32 +234,44 @@ function updatepersonalchatview() {
 }
 
 function insertpersonalchat(name, channel, time) {
+  const member = groupmembers.find((element) => element.identity == name);
   var control = "";
   if (time === undefined) {
     time = 0;
   }
-  // var img = '<div class="avather"><img class="img-circle" style="width:100%;" src="./images/default_profile.png"></div>';
-  // control = '<div class="searchresult" onclick="showChat(\'' + name + '\',\'' + channel + '\')">' +
-  //     img +
-  //     '<p style="margin: inherit;">' + name + '</p>' +
-  //     '</div>';
   control =
-    '<div class="msj macro" style="width:100%">' +
-    '<div class="avather"><img class="img-circle" style="width:100%;" src="./images/default_profile.png" /></div>' +
+    '<div class="msj macro" style="width:100%" onclick="showChat(\'' +
+    name +
+    "','" +
+    channel +
+    "')\">" +
+    '<div class="avather"><img class="img-circle" style="width:100%;" src="' +
+    member.avather +
+    '" /></div>' +
     '<div class="text text-l">' +
     '<div class="authoryou"><b>' +
     name +
     "</b></div>" +
     "<p>Hello</p>" +
-    "<p>Yesterday</p>" +
+    "<p>" +
+    member.lastonline +
+    "</p>" +
     "<br></div>" +
-    "</div><hr>";
+    "</div>";
   setTimeout(function () {
     $(".searchresultbox").append(control);
   }, time);
 }
 
 function showChat(name, channel) {
+  const member = groupmembers.find((element) => element.identity == name);
+  $(".backbutton").show();
+  $(".headeravather").empty();
+  $(".headeravather").append(
+    '<img class="img-circle" style="width: 100%" src="' + member.avather + '"/>'
+  );
+  $(".headeravather").show();
+  console.log(member);
   selected_channel = channel;
   $(".headername")[0].innerText = name;
   $(".MainContainer").hide();
@@ -544,13 +556,13 @@ function resetChat() {
 }
 
 function backtomain() {
-  gsap.from(".macro", {
-    opacity: 50,
-    x: "-100%",
-    ease: "power2.in",
-    duration: 1,
-    stagger: 0.1,
-  });
+  // gsap.from(".macro", {
+  //   opacity: 50,
+  //   x: "-100%",
+  //   ease: "power2.in",
+  //   duration: 1,
+  //   stagger: 0.1,
+  // });
   $(".chatbox").hide();
   $(".infobutton").show();
   $(".searchresultbox").show();

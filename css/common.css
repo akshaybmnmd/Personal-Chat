@@ -103,12 +103,10 @@ ul {
   list-style-type: none;
   padding: 18px;
   position: relative;
-  /* bottom: 0px; */
   display: flex;
   height: 100vh;
   padding-bottom: 40vw;
   flex-direction: column;
-  /* top: 0; */
   overflow-y: scroll;
 }
 
@@ -141,32 +139,26 @@ input:focus {
 }
 
 ::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
   color: #d4d4d4;
 }
 
 ::-moz-placeholder {
-  /* Firefox 19+ */
   color: #d4d4d4;
 }
 
 :-ms-input-placeholder {
-  /* IE 10+ */
   color: #d4d4d4;
 }
 
 :-moz-placeholder {
-  /* Firefox 18- */
   color: #d4d4d4;
 }
 
 .inputoptions {
   position: sticky;
   bottom: 0%;
-  /* padding-top: 22px; */
   min-height: 17vw;
   height: 8vh;
-  /* padding-bottom: 14px; */
   background-color: #e6e6e6;
   width: 100%;
 }
@@ -216,7 +208,6 @@ input:focus {
 
 .header {
   width: 100%;
-  /* position: fixed; */
   height: 10vh;
   min-height: 15vw;
   background-color: #389a39;
@@ -225,13 +216,11 @@ input:focus {
 .chatbox {
   width: 100vw;
   height: 100vh;
-  /* bottom: 0px; */
   background-color: #e5ddd5;
   background-image: url(../images/background.png);
   background-repeat: repeat;
   background-blend-mode: soft-light;
   background-size: cover;
-  /* top: 10vh; */
   position: relative;
 }
 
@@ -288,18 +277,17 @@ input:focus {
 
 .options {
   display: none;
-  margin: 1%;
   position: absolute;
   background-color: #e5ddd5;
   height: auto;
-  width: 43%;
-  left: 55%;
+  width: 55%;
+  left: 45%;
   padding: 10px;
   z-index: 1;
 }
 
 .optionsitem {
-  font-size: 35px;
+  font-size: 22px;
   margin: 26px;
 }
 
@@ -335,4 +323,12 @@ input:focus {
   padding: 8px;
   margin: 16px;
   background-color: #eee;
+}
+
+.headeravather {
+  display: none;
+  position: absolute;
+  width: 13vw;
+  top: 2vh;
+  left: 11%;
 }
